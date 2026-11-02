@@ -1,9 +1,9 @@
 // Keeps the app working without internet after the first visit.
-const CACHE = "app-2.1.17.6.5";
+const CACHE = "app-2.1.17.6.6";
 // The speech runtime (about 21 MB) is cached on first use, apart from the app, so an update never downloads it again.
 const SPEECH = "cadence-speech-v1";
 // Every app file, written in at build time, so the app works offline from the first install.
-const CORE = ["./BinaryModule-BmeyZWwZ-CGJKOCrb.js","./boot-BYe8Hahv.js","./cadence-app-CyXFteSc.js","./capture-flow-BjH7Zqq4.js","./dist-Bcv7goqe.js","./dist-BoHMOFax.js","./dist-Dz-6bxfp.js","./embed-worker-qRpPDjEn.js","./favicon.svg","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-CKCUJZF1.css","./index-CxrjHQjm.js","./manifest.webmanifest","./pdf-ey62OvUQ.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./slimBinary-CRFfjKUu.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-X90pKm0x.js","./whisper-worker-My1c2EuS.js","./xlsx-BKER4Xe2.js"];
+const CORE = ["./BinaryModule-BmeyZWwZ-IvF2D9-t.js","./boot-Cxkf0CX_.js","./cadence-app-CxUyU4g8.js","./capture-flow-0YKPReCc.js","./dist-BoHMOFax.js","./dist-DQzDtKNB.js","./dist-Dz-6bxfp.js","./embed-worker-qRpPDjEn.js","./favicon.svg","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-C1YNhvyj.js","./index-CMUgxEC6.css","./manifest.webmanifest","./pdf-B93E7gq6.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./slimBinary-DV0a6C-j.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-X90pKm0x.js","./whisper-worker-My1c2EuS.js","./xlsx-BKER4Xe2.js"];
 self.addEventListener("install", (e) => {
   self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll([new Request("./", { cache: "reload" }), new Request("./index.html", { cache: "reload" })]).then(() =>
