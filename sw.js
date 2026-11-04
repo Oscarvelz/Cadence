@@ -1,9 +1,9 @@
 // Keeps the app working without internet after the first visit.
-const CACHE = "app-2.1.18.2.2";
+const CACHE = "app-2.1.18.2.3";
 // The speech runtime (about 21 MB) is cached on first use, apart from the app, so an update never downloads it again.
 const SPEECH = "cadence-speech-v1";
 // Every app file, written in at build time, so the app works offline from the first install.
-const CORE = ["./BinaryModule-BmeyZWwZ-CMlahuUY.js","./boot-CtjXjG9P.js","./cadence-app-B84Dm0s2.js","./capture-flow-CHzKVmnF.js","./dist-BoHMOFax.js","./dist-BqKGZFen.js","./dist-Dz-6bxfp.js","./embed-worker-qRpPDjEn.js","./favicon.svg","./fill-docx-CCGG18nA.js","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-DPpI7yNf.js","./index-DaOSF_RY.css","./manifest.webmanifest","./pdf-B21kfmsz.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./render-html-DwX7qEzU.js","./slimBinary-DKH6T7gl.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-X90pKm0x.js","./store-DPipnJ2B.js","./tinos-latin-400-normal-rilFpyjL.woff2","./whisper-worker-My1c2EuS.js","./xlsx-BKER4Xe2.js"];
+const CORE = ["./BinaryModule-BmeyZWwZ-C2qHcOBp.js","./boot-BBqeH7oG.js","./cadence-app-rbRzvhsS.js","./capture-flow-CXyZ75E4.js","./dist-BRCkycP2.js","./dist-BoHMOFax.js","./dist-Dz-6bxfp.js","./embed-worker-qRpPDjEn.js","./favicon.svg","./fill-docx-CCGG18nA.js","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-DCNEPCyD.css","./index-Zil5v8Pt.js","./manifest.webmanifest","./pdf-DmGEzNo6.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./render-html-DwX7qEzU.js","./slimBinary-CqvX014s.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-X90pKm0x.js","./store-1Nc2StFS.js","./tinos-latin-400-normal-rilFpyjL.woff2","./whisper-worker-My1c2EuS.js","./xlsx-BKER4Xe2.js"];
 self.addEventListener("install", (e) => {
   self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll([new Request("./", { cache: "reload" }), new Request("./index.html", { cache: "reload" })]).then(() =>
