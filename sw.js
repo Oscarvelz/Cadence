@@ -1,9 +1,9 @@
 // Keeps the app working without internet after the first visit.
-const CACHE = "app-2.1.18.2.6";
+const CACHE = "app-2.1.18.2.7";
 // The speech runtime (about 21 MB) is cached on first use, apart from the app, so an update never downloads it again.
 const SPEECH = "cadence-speech-v1";
 // Every app file, written in at build time, so the app works offline from the first install.
-const CORE = ["./BinaryModule-BmeyZWwZ-B4zEk84j.js","./boot-D7KQptVE.js","./cadence-app-CyJqm93z.js","./capture-flow-D9vTDKes.js","./dist-BoHMOFax.js","./dist-Dz-6bxfp.js","./dist-ccd9c_lF.js","./embed-worker-qRpPDjEn.js","./favicon.svg","./fill-docx-CCGG18nA.js","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-B_-VriY4.js","./index-D_DLKHie.css","./manifest.webmanifest","./parakeet-worker-Jy-EKs3s.js","./pdf-AvQ1XhYU.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./render-html-DwX7qEzU.js","./slimBinary-D_MdTvnT.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-X90pKm0x.js","./store-QHt5LkPU.js","./tinos-latin-400-normal-rilFpyjL.woff2","./whisper-worker-My1c2EuS.js","./xlsx-BKER4Xe2.js"];
+const CORE = ["./BinaryModule-BmeyZWwZ-BEzjKXUW.js","./boot-cB18dATj.js","./cadence-app-DQlChxxN.js","./capture-flow-BfZJjTxJ.js","./dist-BoHMOFax.js","./dist-Dkfm3wz9.js","./dist-Dz-6bxfp.js","./embed-worker-qRpPDjEn.js","./favicon.svg","./fill-docx-CCGG18nA.js","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-BJLmSJ1g.js","./index-XxLTu7xQ.css","./manifest.webmanifest","./parakeet-worker-Jy-EKs3s.js","./pdf-8uW0QiR-.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./render-html-DwX7qEzU.js","./slimBinary-DYlV1vCh.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-X90pKm0x.js","./store-BVFlYryW.js","./tinos-latin-400-normal-rilFpyjL.woff2","./whisper-worker-My1c2EuS.js","./xlsx-BKER4Xe2.js"];
 self.addEventListener("install", (e) => {
   self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll([new Request("./", { cache: "reload" }), new Request("./index.html", { cache: "reload" })]).then(() =>
