@@ -1,9 +1,13 @@
 // Keeps the app working without internet after the first visit.
-const CACHE = "app-2.1.18.2.19";
+const CACHE = "app-2.1.18.2.20";
 // The speech runtime (about 21 MB) is cached on first use, apart from the app, so an update never downloads it again.
 const SPEECH = "cadence-speech-v1";
-// Every app file, written in at build time, so the app works offline from the first install.
-const CORE = ["./BinaryModule-BmeyZWwZ-7wJ7MNHx.js","./annotate-editor-BfAYnWYr.js","./annotate-editor-CFu4-Y7u.css","./boot-Bg9rZqda.js","./cadence-app-PW48697Z.css","./cadence-app-hVOsGwv6.js","./capture-flow-DCBeSEpx.js","./clipboard-BVSHxyr6.js","./dist-BYI6FSGf.js","./dist-BoHMOFax.js","./dist-Dz-6bxfp.js","./embed-worker-qRpPDjEn.js","./favicon.svg","./fill-docx-CvEBHkNb.js","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-BZA_PrXV.js","./index-CYaJDvhJ.css","./manifest.webmanifest","./middleware-C-tgb70F.js","./parakeet-worker-Jy-EKs3s.js","./pdf-vMfpS0CX.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./render-html-CVYi3vkb.js","./slimBinary-CTEhue1a.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-X90pKm0x.js","./store-BPxoiU4Q.js","./tinos-latin-400-normal-rilFpyjL.woff2","./xlsx-BKER4Xe2.js"];
+// Every app file (fonts included), written in at build time, so the app works offline from the first install.
+const CORE = ["./BinaryModule-BmeyZWwZ-DWJiHH5g.js","./annotate-editor-BPmiW-lh.js","./annotate-editor-CFu4-Y7u.css","./boot-CkM-bEM8.js","./cadence-app-CuFgOa2T.js","./cadence-app-PW48697Z.css","./capture-flow-BVuKTeMm.js","./clipboard-BVSHxyr6.js","./dist-BoHMOFax.js","./dist-DQ0tZUjr.js","./dist-Dz-6bxfp.js","./embed-worker-Cn5rcbjh.js","./favicon.svg","./fill-docx-CvEBHkNb.js","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-CQsv0A6z.js","./index-CYaJDvhJ.css","./manifest.webmanifest","./middleware-C-tgb70F.js","./parakeet-worker-Jy-EKs3s.js","./pdf-BHxNEbnJ.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./render-html-CVYi3vkb.js","./slimBinary-JlI0HD4f.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-bwq87gBr.js","./store-Bn2pON3x.js","./tinos-latin-400-normal-rilFpyjL.woff2","./xlsx-BKER4Xe2.js","./fonts/figtree-latin-ext-hinted.woff2","./fonts/figtree-latin-ext-unhinted.woff2","./fonts/figtree-latin-hinted.woff2","./fonts/figtree-latin-unhinted.woff2","./fonts/fonts-hinted.css","./fonts/fonts-unhinted.css","./fonts/newsreader-latin-ext-hinted.woff2","./fonts/newsreader-latin-ext-unhinted.woff2","./fonts/newsreader-latin-hinted.woff2","./fonts/newsreader-latin-unhinted.woff2","./fonts/newsreader-vietnamese-hinted.woff2","./fonts/newsreader-vietnamese-unhinted.woff2"];
+// The OCR engine for scanned PDFs (worker, core, English data, ~7 MB): kept apart from the app like the speech runtime,
+// fetched once in the background (when the page sends "warm-ocr") and kept across updates. The name changes only when the OCR files change.
+const OCR = "cadence-ocr-5.1.1";
+const OCR_FILES = ["./ocr/worker.min.js","./ocr/tesseract-core-simd-lstm.wasm.js","./ocr/eng.traineddata.gz"];
 self.addEventListener("install", (e) => {
   self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll([new Request("./", { cache: "reload" }), new Request("./index.html", { cache: "reload" })]).then(() =>
@@ -11,8 +15,11 @@ self.addEventListener("install", (e) => {
     Promise.allSettled(CORE.map((f) => c.match(f).then((hit) => hit || fetch(f, { cache: "reload" }).then((r) => { if (r.ok) return c.put(f, r); }))))
   )));
 });
+// The page asks for the OCR files once it is open (never during install, so an update is never held up by them).
+const warmOcr = () => caches.open(OCR).then((c) => Promise.allSettled(OCR_FILES.map((f) => c.match(f).then((hit) => hit || fetch(f).then((r) => { if (r.ok) return c.put(f, r); }))))).catch(() => {});
+self.addEventListener("message", (e) => { if (e.data && e.data.type === "warm-ocr") e.waitUntil(warmOcr()); });
 // Only old app caches are cleared. The search model ("transformers-cache"), the voice package and the speech runtime stay.
-self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k.startsWith("app-") && k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
+self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => (k.startsWith("app-") && k !== CACHE) || (k.startsWith("cadence-ocr-") && k !== OCR)).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener("fetch", (e) => {
   const req = e.request;
   if (req.method !== "GET") return;
@@ -24,7 +31,7 @@ self.addEventListener("fetch", (e) => {
   }
   // Model files (models/...) are large; transformers.js stores them in its own cache. Leave them to it.
   if (url.origin === location.origin && url.pathname.includes("/models/")) return;
-  if ((url.origin === location.origin || url.hostname === "cdn.jsdelivr.net") && /\/ort-wasm[^/]*\.wasm$/.test(url.pathname)) {
+  if (url.origin === location.origin && /\/ort-wasm[^/]*\.wasm$/.test(url.pathname)) {
     e.respondWith(caches.open(SPEECH).then((c) => c.match(req, { ignoreSearch: true }).then((hit) => hit || fetch(req).then((r) => {
       if (r.ok) {
         // Keep one runtime: drop an older hashed copy once the new one is stored.
@@ -34,7 +41,12 @@ self.addEventListener("fetch", (e) => {
     }))));
     return;
   }
-  // Model files from Hugging Face (the fallback); transformers.js keeps them in its own cache. Leave them alone here.
-  if (url.origin !== location.origin && !url.hostname.endsWith("gstatic.com") && !url.hostname.endsWith("googleapis.com")) return;
+  // The OCR files: from their own cache, else the network (then kept).
+  if (url.origin === location.origin && url.pathname.includes("/ocr/")) {
+    e.respondWith(caches.open(OCR).then((c) => c.match(req, { ignoreSearch: true }).then((hit) => hit || fetch(req).then((r) => { if (r.ok) c.put(req, r.clone()); return r; }))));
+    return;
+  }
+  // Cadence needs no other site (fonts and models are its own). Anything else, e.g. an Email a Copy tab, is left alone.
+  if (url.origin !== location.origin) return;
   e.respondWith(caches.match(req).then((hit) => hit || fetch(req).then((r) => { if (r.ok || r.type === "opaque") { const copy = r.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); } return r; })));
 });
