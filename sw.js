@@ -1,9 +1,9 @@
 // Keeps the app working without internet after the first visit.
-const CACHE = "app-2.1.18.2.15";
+const CACHE = "app-2.1.18.2.16";
 // The speech runtime (about 21 MB) is cached on first use, apart from the app, so an update never downloads it again.
 const SPEECH = "cadence-speech-v1";
 // Every app file, written in at build time, so the app works offline from the first install.
-const CORE = ["./BinaryModule-BmeyZWwZ-BBTYATv9.js","./boot-DPGUXR75.js","./cadence-app-CjDGMXNc.js","./capture-flow-Cync8JPb.js","./dist-BoHMOFax.js","./dist-DId9VUzF.js","./dist-Dz-6bxfp.js","./embed-worker-qRpPDjEn.js","./favicon.svg","./fill-docx-CvEBHkNb.js","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-BRxrrJZ-.js","./index-iNq3b40s.css","./manifest.webmanifest","./parakeet-worker-Jy-EKs3s.js","./pdf-DVzd2R51.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./render-html-CVYi3vkb.js","./slimBinary-uJ7mxjT2.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-X90pKm0x.js","./store-Do8Ux_J4.js","./tinos-latin-400-normal-rilFpyjL.woff2","./whisper-worker-My1c2EuS.js","./xlsx-BKER4Xe2.js"];
+const CORE = ["./BinaryModule-BmeyZWwZ-7ubFuiI6.js","./annotate-editor-CEmg05YX.css","./annotate-editor-DXasVMkk.js","./boot-CBDrCV4x.js","./cadence-app-BnmMCYZC.js","./cadence-app-CGoUueFz.css","./capture-flow-59OIf06S.js","./clipboard-BVSHxyr6.js","./dist-BoHMOFax.js","./dist-DnJiFkF6.js","./dist-Dz-6bxfp.js","./embed-worker-qRpPDjEn.js","./favicon.svg","./fill-docx-CvEBHkNb.js","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-CM42UVGY.js","./index-DXajhPdS.css","./manifest.webmanifest","./parakeet-worker-Jy-EKs3s.js","./pdf-BH5raVLL.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./render-html-CVYi3vkb.js","./slimBinary-oaz7nZLl.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-X90pKm0x.js","./store-QQty0Z2-.js","./tinos-latin-400-normal-rilFpyjL.woff2","./whisper-worker-My1c2EuS.js","./xlsx-BKER4Xe2.js"];
 self.addEventListener("install", (e) => {
   self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll([new Request("./", { cache: "reload" }), new Request("./index.html", { cache: "reload" })]).then(() =>

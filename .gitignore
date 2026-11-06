@@ -1,0 +1,8 @@
+# never commit secrets or signing keys
+.env
+.env.*
+*.p12
+*.jks
+*.keystore
+*.pem
+*.key
