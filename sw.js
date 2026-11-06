@@ -1,9 +1,9 @@
 // Keeps the app working without internet after the first visit.
-const CACHE = "app-2.1.18.2.18";
+const CACHE = "app-2.1.18.2.19";
 // The speech runtime (about 21 MB) is cached on first use, apart from the app, so an update never downloads it again.
 const SPEECH = "cadence-speech-v1";
 // Every app file, written in at build time, so the app works offline from the first install.
-const CORE = ["./BinaryModule-BmeyZWwZ-Cawi7oOF.js","./annotate-editor-6E8fv_nH.js","./annotate-editor-CFu4-Y7u.css","./boot-CWIYA3nj.js","./cadence-app-BVnv_GHH.js","./cadence-app-PW48697Z.css","./capture-flow-BOJ1DyHu.js","./clipboard-BVSHxyr6.js","./dist-BoHMOFax.js","./dist-Cx8BerN3.js","./dist-Dz-6bxfp.js","./embed-worker-qRpPDjEn.js","./favicon.svg","./fill-docx-CvEBHkNb.js","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-CYaJDvhJ.css","./index-DpY4-0K9.js","./manifest.webmanifest","./middleware-C-tgb70F.js","./parakeet-worker-Jy-EKs3s.js","./pdf-DdkVMVAQ.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./render-html-CVYi3vkb.js","./slimBinary-BNVwub_j.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-X90pKm0x.js","./store-C1By3sdZ.js","./tinos-latin-400-normal-rilFpyjL.woff2","./whisper-worker-My1c2EuS.js","./xlsx-BKER4Xe2.js"];
+const CORE = ["./BinaryModule-BmeyZWwZ-7wJ7MNHx.js","./annotate-editor-BfAYnWYr.js","./annotate-editor-CFu4-Y7u.css","./boot-Bg9rZqda.js","./cadence-app-PW48697Z.css","./cadence-app-hVOsGwv6.js","./capture-flow-DCBeSEpx.js","./clipboard-BVSHxyr6.js","./dist-BYI6FSGf.js","./dist-BoHMOFax.js","./dist-Dz-6bxfp.js","./embed-worker-qRpPDjEn.js","./favicon.svg","./fill-docx-CvEBHkNb.js","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-BZA_PrXV.js","./index-CYaJDvhJ.css","./manifest.webmanifest","./middleware-C-tgb70F.js","./parakeet-worker-Jy-EKs3s.js","./pdf-vMfpS0CX.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./render-html-CVYi3vkb.js","./slimBinary-CTEhue1a.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-X90pKm0x.js","./store-BPxoiU4Q.js","./tinos-latin-400-normal-rilFpyjL.woff2","./xlsx-BKER4Xe2.js"];
 self.addEventListener("install", (e) => {
   self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll([new Request("./", { cache: "reload" }), new Request("./index.html", { cache: "reload" })]).then(() =>
@@ -11,7 +11,7 @@ self.addEventListener("install", (e) => {
     Promise.allSettled(CORE.map((f) => c.match(f).then((hit) => hit || fetch(f, { cache: "reload" }).then((r) => { if (r.ok) return c.put(f, r); }))))
   )));
 });
-// Only old app caches are cleared. The Precise model ("transformers-cache") and the speech runtime stay.
+// Only old app caches are cleared. The search model ("transformers-cache"), the voice package and the speech runtime stay.
 self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k.startsWith("app-") && k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener("fetch", (e) => {
   const req = e.request;
@@ -22,7 +22,7 @@ self.addEventListener("fetch", (e) => {
     e.respondWith(fetch(req, { cache: "no-store" }).then((r) => { const copy = r.clone(); caches.open(CACHE).then((c) => c.put("./index.html", copy)); return r; }).catch(() => caches.match("./index.html")));
     return;
   }
-  // The Precise model files (models/...) are large; transformers.js stores them in its own cache. Leave them to it.
+  // Model files (models/...) are large; transformers.js stores them in its own cache. Leave them to it.
   if (url.origin === location.origin && url.pathname.includes("/models/")) return;
   if ((url.origin === location.origin || url.hostname === "cdn.jsdelivr.net") && /\/ort-wasm[^/]*\.wasm$/.test(url.pathname)) {
     e.respondWith(caches.open(SPEECH).then((c) => c.match(req, { ignoreSearch: true }).then((hit) => hit || fetch(req).then((r) => {
