@@ -1,9 +1,9 @@
 // Keeps the app working without internet after the first visit.
-const CACHE = "app-2.1.18.2.38";
+const CACHE = "app-2.1.18.2.39";
 // The speech runtime (about 21 MB) is cached on first use, apart from the app, so an update never downloads it again.
 const SPEECH = "cadence-speech-v1";
 // Every app file (fonts included), written in at build time, so the app works offline from the first install.
-const CORE = ["./BinaryModule-BmeyZWwZ-CjNh6HXP.js","./annotate-editor-CFu4-Y7u.css","./annotate-editor-qEhos2iZ.js","./backup-cert-BKqtvyGj.js","./backup-crypto-D2mfZ8ca.js","./backup-snapshot-BC5TYFtA.js","./boot-BTASBnKX.js","./cadence-app-CdEepEmu.js","./cadence-app-LQ-mJp-Y.css","./capture-flow-DfraLAYb.js","./clipboard-BVSHxyr6.js","./dist-BoHMOFax.js","./dist-BtfybVJL.js","./dist-Dz-6bxfp.js","./embed-worker-Cn5rcbjh.js","./favicon.svg","./fill-docx-BOLE-5h1.js","./forms-B9MoPI8W.js","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-Be5FdSVf.js","./index-CGxGBOx9.css","./layout-b4Y4mFcL.js","./manifest.webmanifest","./middleware-C-tgb70F.js","./notes-tools-Cu-q-uiL.js","./parakeet-worker-Jy-EKs3s.js","./pdf-Cc3ArNuV.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./render-html-Ca8aDkbj.js","./schedule-sheet-BYZt2xyk.js","./slimBinary-BbqPL6b2.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-bwq87gBr.js","./store-B7lCz0pq.js","./tinos-latin-400-normal-rilFpyjL.woff2","./xlsx-BKER4Xe2.js","./fonts/figtree-latin-ext-hinted.woff2","./fonts/figtree-latin-ext-unhinted.woff2","./fonts/figtree-latin-hinted.woff2","./fonts/figtree-latin-unhinted.woff2","./fonts/fonts-hinted.css","./fonts/fonts-unhinted.css","./fonts/newsreader-latin-ext-hinted.woff2","./fonts/newsreader-latin-ext-unhinted.woff2","./fonts/newsreader-latin-hinted.woff2","./fonts/newsreader-latin-unhinted.woff2","./fonts/newsreader-vietnamese-hinted.woff2","./fonts/newsreader-vietnamese-unhinted.woff2"];
+const CORE = ["./BinaryModule-BmeyZWwZ-tyKx67ZU.js","./annotate-editor-CFu4-Y7u.css","./annotate-editor-CTseelnA.js","./backup-cert-farUp6H5.js","./backup-crypto-BZo1lWUJ.js","./backup-snapshot-DL6WtzBE.js","./boot-BDyUZ8VV.js","./cadence-app-LQ-mJp-Y.css","./cadence-app-sbXv3WBr.js","./capture-flow-DxBRRB5a.js","./clipboard-BVSHxyr6.js","./dist-BHIKd0QV.js","./dist-BoHMOFax.js","./dist-Dz-6bxfp.js","./embed-worker-Cn5rcbjh.js","./favicon.svg","./fill-docx-BOLE-5h1.js","./forms-tFPm8k8Y.js","./harper_wasm_slim_bg-ChaU7UNk.wasm","./icon-192.png","./icon-512.png","./icon-maskable.png","./icon.svg","./index-2Pa8Wl5V.js","./index-CGxGBOx9.css","./layout-b4Y4mFcL.js","./manifest.webmanifest","./middleware-C-tgb70F.js","./note-prefs-M1v1MGiE.js","./parakeet-worker-Jy-EKs3s.js","./pdf-4hcvzcuW.js","./pdf.worker.min.mjs","./react-dom-Sb3vDXHg.js","./render-html-Ca8aDkbj.js","./schedule-sheet-D3UmhwLb.js","./slimBinary-9lSHCyfM.js","./spell-en-1.txt.gz","./spell-es-1.txt.gz","./spell-worker-Bhx_4272.js","./src-bwq87gBr.js","./store-BAXqLNyM.js","./tinos-latin-400-normal-rilFpyjL.woff2","./xlsx-BKER4Xe2.js","./fonts/figtree-latin-ext-hinted.woff2","./fonts/figtree-latin-ext-unhinted.woff2","./fonts/figtree-latin-hinted.woff2","./fonts/figtree-latin-unhinted.woff2","./fonts/fonts-hinted.css","./fonts/fonts-unhinted.css","./fonts/newsreader-latin-ext-hinted.woff2","./fonts/newsreader-latin-ext-unhinted.woff2","./fonts/newsreader-latin-hinted.woff2","./fonts/newsreader-latin-unhinted.woff2","./fonts/newsreader-vietnamese-hinted.woff2","./fonts/newsreader-vietnamese-unhinted.woff2"];
 // The OCR engine for scanned PDFs (worker, core, English data, ~7 MB): kept apart from the app like the speech runtime,
 // fetched once in the background (when the page sends "warm-ocr") and kept across updates. The name changes only when the OCR files change.
 const OCR = "cadence-ocr-5.1.1";
@@ -26,7 +26,15 @@ self.addEventListener("fetch", (e) => {
   const url = new URL(req.url);
   if (req.mode === "navigate") {
     // Always ask the network for the newest page, so an update shows on the next open.
-    e.respondWith(fetch(req, { cache: "no-store" }).then((r) => { const copy = r.clone(); caches.open(CACHE).then((c) => c.put("./index.html", copy)); return r; }).catch(() => caches.match("./index.html")));
+    // 2.1.18.2.39 (audit SW): the response used to be cached as the offline page unchecked —
+    // a captive-portal login page or a proxy error page would replace the app and then be
+    // served as "the app" offline. Only a valid document response (ok, and HTML when a
+    // content type is declared) may take the slot; anything else leaves the last good page.
+    e.respondWith(fetch(req, { cache: "no-store" }).then((r) => {
+      const type = r.headers.get("content-type") || "";
+      if (r.ok && (type === "" || type.includes("text/html"))) { const copy = r.clone(); caches.open(CACHE).then((c) => c.put("./index.html", copy)); }
+      return r;
+    }).catch(() => caches.match("./index.html")));
     return;
   }
   // Model files (models/...) are large; transformers.js stores them in its own cache. Leave them to it.
