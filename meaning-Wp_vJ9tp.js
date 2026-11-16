@@ -1,0 +1,1 @@
+import{n as e,r as t,t as n}from"./cadence-app-0y7ffPSb.js";export{n as antonymFlags,e as meaningScore,t as tokenize};
