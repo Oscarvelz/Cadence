@@ -1,0 +1,48 @@
+{
+  "pack": "humarin-t5-paraphraser",
+  "model": "humarin/chatgpt_paraphraser_on_T5_base",
+  "architecture": "t5-base",
+  "runtime": "@huggingface/transformers v3 (transformers.js), wasm/cpu",
+  "task": "paraphrase",
+  "prefix": "paraphrase: ",
+  "generation": {
+    "num_beams": 5,
+    "max_length": 128,
+    "early_stopping": true
+  },
+  "quantization": "int8 dynamic (onnxruntime quantize_dynamic, QInt8 weights)",
+  "files": {
+    "config.json": {
+      "bytes": 1603,
+      "sha256": "a366234d815ca6a3db684a102089a37d6a85fa3b856730c30a666a4b85508724"
+    },
+    "generation_config.json": {
+      "bytes": 142,
+      "sha256": "8145d7eecabff8e16a9876617a6d52728e9b8fbe24c426e6bf9ebbd6bfb87737"
+    },
+    "onnx/decoder_model_merged.onnx": {
+      "bytes": 163646643,
+      "sha256": "397b46eb3ad3d092c305fc474b23616fa443340d3029dac01b52a708c8185429"
+    },
+    "onnx/encoder_model.onnx": {
+      "bytes": 110001374,
+      "sha256": "e476f4af6f3785b1c54c18b47692c55af7a95ca7686a68d2b2434ec60406b96f"
+    },
+    "special_tokens_map.json": {
+      "bytes": 2543,
+      "sha256": "7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2"
+    },
+    "spiece.model": {
+      "bytes": 791656,
+      "sha256": "d60acb128cf7b7f2536e8f38a5b18a05535c9e14c7a355904270e15b0945ea86"
+    },
+    "tokenizer.json": {
+      "bytes": 2422422,
+      "sha256": "3696c1092bd9e8bea5269cf523f56d40ff96d3b33499f5f6f1f986115978fe2a"
+    },
+    "tokenizer_config.json": {
+      "bytes": 20996,
+      "sha256": "ca2f975f9be9ebaee8a4952487f34c91e824ccf67b24eb2cc45f656e3ba7804c"
+    }
+  }
+}

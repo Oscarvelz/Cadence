@@ -1,0 +1,83 @@
+{
+ "seat": "humarin-pack-v1",
+ "model": "humarin/chatgpt_paraphraser_on_T5_base",
+ "entries": {
+  "config.json": {
+   "bytes": 1603,
+   "sha256": "a366234d815ca6a3db684a102089a37d6a85fa3b856730c30a666a4b85508724"
+  },
+  "generation_config.json": {
+   "bytes": 142,
+   "sha256": "8145d7eecabff8e16a9876617a6d52728e9b8fbe24c426e6bf9ebbd6bfb87737"
+  },
+  "special_tokens_map.json": {
+   "bytes": 2543,
+   "sha256": "7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2"
+  },
+  "spiece.model": {
+   "bytes": 791656,
+   "sha256": "d60acb128cf7b7f2536e8f38a5b18a05535c9e14c7a355904270e15b0945ea86"
+  },
+  "tokenizer.json": {
+   "bytes": 2422422,
+   "sha256": "3696c1092bd9e8bea5269cf523f56d40ff96d3b33499f5f6f1f986115978fe2a"
+  },
+  "tokenizer_config.json": {
+   "bytes": 20996,
+   "sha256": "ca2f975f9be9ebaee8a4952487f34c91e824ccf67b24eb2cc45f656e3ba7804c"
+  },
+  "manifest.json": {
+   "bytes": 1575,
+   "sha256": "0177fbf6e4e67e4e43289e40c1c31183eaf04c710a5204585924730793e6fced"
+  },
+  "onnx/encoder_model.onnx.part00": {
+   "bytes": 41943040,
+   "sha256": "690c5296aba90f94cc35c5e777e869a9528e328af41c7e85c9834041aaadccca"
+  },
+  "onnx/encoder_model.onnx.part01": {
+   "bytes": 41943040,
+   "sha256": "4fda4912bf8811aee8081ce13f78a3a8c2fb97555bf652582eb421496047094c"
+  },
+  "onnx/encoder_model.onnx.part02": {
+   "bytes": 26115294,
+   "sha256": "0ace7a7b698c682f8ad6631abf74e40ead512f56a683b02792ba5cbaa585cc37"
+  },
+  "onnx/decoder_model_merged.onnx.part00": {
+   "bytes": 41943040,
+   "sha256": "934a034a886b53d303f11bd8608a900f54196a7bc194691ae42d5bb03f40aeae"
+  },
+  "onnx/decoder_model_merged.onnx.part01": {
+   "bytes": 41943040,
+   "sha256": "6bd398940bbdb0a9d19d159fd7041286eaba6d26a46cbb1f05e12970424f23f4"
+  },
+  "onnx/decoder_model_merged.onnx.part02": {
+   "bytes": 41943040,
+   "sha256": "f1851d8ac244bfb1e63e2d56729a257d07be1e9d03cf30a27821c4d15bc07685"
+  },
+  "onnx/decoder_model_merged.onnx.part03": {
+   "bytes": 37817523,
+   "sha256": "a76d01415a7383f62d0670fa10efcc6b6f3f0154b7e34c17918ea3ebf0c64210"
+  }
+ },
+ "assemble": {
+  "onnx/encoder_model.onnx": {
+   "parts": [
+    "onnx/encoder_model.onnx.part00",
+    "onnx/encoder_model.onnx.part01",
+    "onnx/encoder_model.onnx.part02"
+   ],
+   "bytes": 110001374,
+   "sha256": "e476f4af6f3785b1c54c18b47692c55af7a95ca7686a68d2b2434ec60406b96f"
+  },
+  "onnx/decoder_model_merged.onnx": {
+   "parts": [
+    "onnx/decoder_model_merged.onnx.part00",
+    "onnx/decoder_model_merged.onnx.part01",
+    "onnx/decoder_model_merged.onnx.part02",
+    "onnx/decoder_model_merged.onnx.part03"
+   ],
+   "bytes": 163646643,
+   "sha256": "397b46eb3ad3d092c305fc474b23616fa443340d3029dac01b52a708c8185429"
+  }
+ }
+}
