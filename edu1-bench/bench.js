@@ -38,8 +38,14 @@
 const CACHE_NAME = "cadence-edu1-model-v1";
 const MODEL_DIR = "./model-ext/";
 const MODEL_FILES = [
-  "onnx/encoder_model.onnx", "onnx/encoder_model.shard0", "onnx/encoder_model.shard1",
-  "onnx/decoder_model_merged.onnx", "onnx/decoder_model_merged.shard0", "onnx/decoder_model_merged.shard1",
+  "onnx/encoder_model.onnx",
+  "onnx/encoder_model.shard0", "onnx/encoder_model.shard1", "onnx/encoder_model.shard2", "onnx/encoder_model.shard3",
+  "onnx/encoder_model.shard4", "onnx/encoder_model.shard5", "onnx/encoder_model.shard6", "onnx/encoder_model.shard7",
+  "onnx/decoder_model_merged.onnx",
+  "onnx/decoder_model_merged.shard0", "onnx/decoder_model_merged.shard1", "onnx/decoder_model_merged.shard2",
+  "onnx/decoder_model_merged.shard3", "onnx/decoder_model_merged.shard4", "onnx/decoder_model_merged.shard5",
+  "onnx/decoder_model_merged.shard6", "onnx/decoder_model_merged.shard7", "onnx/decoder_model_merged.shard8",
+  "onnx/decoder_model_merged.shard9", "onnx/decoder_model_merged.shard10",
   "tokenizer.json", "tokenizer_config.json", "config.json", "generation_config.json",
 ].map((f) => MODEL_DIR + f);
 
