@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>edu1 bench: computer timing measurement</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 2rem auto; max-width: 44rem; padding: 0 1rem; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+  td, th { border: 1px solid #999; padding: 0.4rem 0.6rem; text-align: left; }
+  button { font-size: 1rem; padding: 0.5rem 1rem; margin-right: 0.5rem; }
+  #log { white-space: pre-wrap; font-family: monospace; font-size: 0.85rem; border: 1px solid #999; padding: 0.6rem; min-height: 6rem; }
+</style>
+</head>
+<body>
+<h1>edu1 bench</h1>
+<p>Timing measurement for the edu1 int8 artifact on this computer, in this
+browser. The model ships in the external-data layout (10 files, every one
+under 100 MB; 276,103,928 bytes in total). Generation runs a page-side beam
+search over the raw ONNX sessions under the bench decoding (10 beams, 5
+candidates, repetition penalty 2.0, no-repeat-ngram 2, max length 320),
+verified against the parity record.</p>
+<p>The counted presses are edu1's 15 unique paragraphs from the development
+bank, after one uncounted warm-up press. The verdict is the share of presses
+that miss 10 seconds, counted across all presses and on the 15 alone. A
+press over 10 s on a stronger machine is over 10 s on a weaker one; a press
+under 10 s here proves nothing for a weaker machine.</p>
+<p>On load, this page first checks whether the model is already in Cache
+Storage (that check is the browser-restart survival probe: open this page,
+run the measurement, close the browser completely, reopen the page, and read
+the cache line again).</p>
+<button id="run">Run the measurement</button>
+<button id="copy" disabled>Copy results as JSON</button>
+<table>
+  <tr><th>Measure</th><th>Result</th></tr>
+  <tr><td>Machine and browser</td><td id="m-machine">not checked yet</td></tr>
+  <tr><td>Cache present on load (restart survival)</td><td id="m-cache">not checked yet</td></tr>
+  <tr><td>Shared origin storage (usage, quota, persistent)</td><td id="m-storage">not checked yet</td></tr>
+  <tr><td>First load: download of the model files</td><td id="m-download">—</td></tr>
+  <tr><td>Load from cache (files already stored)</td><td id="m-cacheload">—</td></tr>
+  <tr><td>Model init after the files are present</td><td id="m-init">—</td></tr>
+  <tr><td>Presses over 10 s (share of 15, misses with family and length)</td><td id="m-para">—</td></tr>
+  <tr><td>Peak JS heap during the run</td><td id="m-mem">—</td></tr>
+</table>
+<div id="log"></div>
+<script type="module" src="./bench.js"></script>
+</body>
+</html>
